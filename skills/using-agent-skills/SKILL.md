@@ -1,6 +1,6 @@
 ---
 name: using-agent-skills
-description: Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills are discovered and invoked.
+description: Discovers and invokes agent skills. Use when starting a session (开始会话) or when you need to discover which skill applies to the current task (发现/选择/匹配当前任务适用的技能). This is the meta-skill that governs how all other skills are discovered and invoked.
 ---
 
 # Using Agent Skills
@@ -11,34 +11,34 @@ Agent Skills is a collection of engineering workflow skills organized by develop
 
 ## Skill Discovery
 
-When a task arrives, identify the development phase and apply the corresponding skill:
+When a task arrives (任务到达), identify the development phase (识别开发阶段) and apply the corresponding skill (应用对应技能):
 
 ```
-Task arrives
+Task arrives (任务到达)
     │
-    ├── Don't know what you want yet? ──────→ interview-me
-    ├── Have a rough concept, need variants? → idea-refine
-    ├── New project/feature/change? ──→ spec-driven-development
-    ├── Have a spec, need tasks? ──────→ planning-and-task-breakdown
-    ├── Implementing code? ────────────→ incremental-implementation
-    │   ├── UI work? ─────────────────→ frontend-ui-engineering
-    │   ├── API work? ────────────────→ api-and-interface-design
-    │   ├── Need better context? ─────→ context-engineering
-    │   ├── Need doc-verified code? ───→ source-driven-development
-    │   └── Stakes high / unfamiliar code? ──→ doubt-driven-development
-    ├── Writing/running tests? ────────→ test-driven-development
-    │   └── Browser-based? ───────────→ browser-testing-with-devtools
-    ├── Something broke? ──────────────→ debugging-and-error-recovery
-    ├── Reviewing code? ───────────────→ code-review-and-quality
-    │   ├── Too complex? ─────────────→ code-simplification
-    │   ├── Security concerns? ───────→ security-and-hardening
-    │   └── Performance concerns? ────→ performance-optimization
-    ├── Committing/branching? ─────────→ git-workflow-and-versioning
-    ├── CI/CD pipeline work? ──────────→ ci-cd-and-automation
-    ├── Deprecating/migrating? ────────→ deprecation-and-migration
-    ├── Writing docs/ADRs? ───────────→ documentation-and-adrs
-    ├── Adding logs/metrics/alerts? ───→ observability-and-instrumentation
-    └── Deploying/launching? ─────────→ shipping-and-launch
+    ├── Don't know what you want yet? (还不清楚想要什么？) ──────→ interview-me
+    ├── Have a rough concept, need variants? (有粗略想法，需要多个方案？) → idea-refine
+    ├── New project/feature/change? (新项目/新功能/变更？) ──→ spec-driven-development
+    ├── Have a spec, need tasks? (已有规格，需要拆任务？) ──────→ planning-and-task-breakdown
+    ├── Implementing code? (正在实现代码？) ────────────→ incremental-implementation
+    │   ├── UI work? (UI 工作？) ─────────────────→ frontend-ui-engineering
+    │   ├── API work? (API 工作？) ────────────────→ api-and-interface-design
+    │   ├── Need better context? (需要更好的上下文？) ─────→ context-engineering
+    │   ├── Need doc-verified code? (需要文档验证的代码？) ───→ source-driven-development
+    │   └── Stakes high / unfamiliar code? (风险高/代码不熟悉？) ──→ doubt-driven-development
+    ├── Writing/running tests? (编写/运行测试？) ────────→ test-driven-development
+    │   └── Browser-based? (基于浏览器？) ───────────→ browser-testing-with-devtools
+    ├── Something broke? (东西坏了/出错了？) ──────────────→ debugging-and-error-recovery
+    ├── Reviewing code? (审查代码？) ───────────────→ code-review-and-quality
+    │   ├── Too complex? (太复杂？) ─────────────→ code-simplification
+    │   ├── Security concerns? (安全问题？) ───────→ security-and-hardening
+    │   └── Performance concerns? (性能问题？) ────→ performance-optimization
+    ├── Committing/branching? (提交/分支？) ─────────→ git-workflow-and-versioning
+    ├── CI/CD pipeline work? (CI/CD 流水线工作？) ──────────→ ci-cd-and-automation
+    ├── Deprecating/migrating? (废弃/迁移？) ────────→ deprecation-and-migration
+    ├── Writing docs/ADRs? (编写文档/ADR？) ───────────→ documentation-and-adrs 
+    ├── Adding logs/metrics/alerts? (添加日志/指标/告警？) ───→ observability-and-instrumentation
+    └── Deploying/launching? (部署/发布？) ─────────→ shipping-and-launch
 ```
 
 ## Core Operating Behaviors
