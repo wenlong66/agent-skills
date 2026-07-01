@@ -23,9 +23,9 @@
   "agents": [
     "./agents/code-reviewer.md",
     "./agents/security-auditor.md",
-    "./agents/test-engineer.md"
+    "./agents/test-engineer.md",
+    "./agents/web-performance-auditor.md"
   ],
-  "hooks": "./hooks/codex-hooks.json",
   "interface": {
     "displayName": "Agent Skills",
     "shortDescription": "Spec, plan, build, test, review, and ship workflows for coding agents.",
