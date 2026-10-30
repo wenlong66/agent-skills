@@ -8,7 +8,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const test = require('node:test');
-const { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel } = require('./run-evals');
+const { parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel } = require('./run-evals');
 
 const RUNNER = path.join(__dirname, 'run-evals.js');
 
@@ -883,17 +883,43 @@ test('accepted grading omits run key when no metadata is provided', () => {
 });
 
 test('materializes a git baseline and applies a working-tree patch', () => {
-  const workspace = materializeWorkspace({ files: ['git-workflow-and-versioning'] });
+  const root = makeSandbox();
   try {
-    const status = spawnSync('git', ['status', '--short'], { cwd: workspace, encoding: 'utf8' });
-    const commits = spawnSync('git', ['rev-list', '--count', 'HEAD'], { cwd: workspace, encoding: 'utf8' });
-
-    assert.equal(status.status, 0, status.stdout + status.stderr);
-    assert.match(status.stdout, / M git-workflow-and-versioning\/app\.js/);
-    assert.equal(commits.stdout.trim(), '1');
-    assert.equal(fs.existsSync(path.join(workspace, '.eval')), false);
+    const setup = path.join(root, 'evals', 'fixtures', 'project', '.eval');
+    fs.mkdirSync(setup);
+    fs.writeFileSync(path.join(setup, 'working-tree.patch'), [
+      'diff --git a/project/context.txt b/project/context.txt',
+      '--- a/project/context.txt',
+      '+++ b/project/context.txt',
+      '@@ -1 +1 @@',
+      '-fixture',
+      '+updated fixture',
+      '',
+    ].join('\n'));
+    const result = spawnSync(process.execPath, ['-e', `
+      const assert = require('node:assert/strict');
+      const fs = require('node:fs');
+      const path = require('node:path');
+      const { spawnSync } = require('node:child_process');
+      const { materializeWorkspace } = require(${JSON.stringify(path.join(root, 'scripts', 'run-evals.js'))});
+      let workspace;
+      try {
+        workspace = materializeWorkspace({ files: ['project'] });
+        const status = spawnSync('git', ['status', '--short'], { cwd: workspace, encoding: 'utf8' });
+        const commits = spawnSync('git', ['rev-list', '--count', 'HEAD'], { cwd: workspace, encoding: 'utf8' });
+        assert.equal(status.status, 0, status.stdout + status.stderr);
+        assert.ok(status.stdout.includes(' M project/context.txt'));
+        assert.equal(commits.status, 0, commits.stdout + commits.stderr);
+        assert.equal(commits.stdout.trim(), '1');
+        assert.equal(fs.readFileSync(path.join(workspace, 'project', 'context.txt'), 'utf8').trim(), 'updated fixture');
+        assert.equal(fs.existsSync(path.join(workspace, 'project', '.eval')), false);
+      } finally {
+        if (workspace) fs.rmSync(workspace, { recursive: true, force: true });
+      }
+    `], { cwd: root, encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stdout + result.stderr);
   } finally {
-    fs.rmSync(workspace, { recursive: true, force: true });
+    fs.rmSync(root, { recursive: true, force: true });
   }
 });
 

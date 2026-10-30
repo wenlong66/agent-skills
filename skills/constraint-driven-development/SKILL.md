@@ -7,7 +7,7 @@ description: Establishes a project's quality bar as a written contract and stops
 
 ## Overview
 
-Other skills in this pack describe what good looks like. `code-review-and-quality` gives you five axes. `test-driven-development` gives you a cycle. `security-and-hardening` gives you a threat list. All of that lives in prose the agent reads and may or may not follow, and none of it survives the end of the session.
+Other skills in this pack describe what good looks like. `security-and-hardening` gives you a threat list. `performance-optimization` gives you measurement targets. All of that lives in prose the agent reads and may or may not follow, and none of it survives the end of the session.
 
 This skill produces something different: a written record of **this project's** bar, with numbers, that outlives the conversation and can be checked mechanically.
 
@@ -24,13 +24,13 @@ Apply this skill when:
 - An agent is producing volume nobody is reading line by line
 - CI has checks but nobody can say which ones block a merge and which ones are decoration
 - Coverage, performance, or accessibility numbers get argued about per-PR instead of decided once
-- You're about to run `/build auto` or any autonomous loop, and the only thing standing between it and main is a test suite the agent also wrote
+- You're about to run an autonomous implementation loop, and the only thing standing between it and main is a test suite the agent also wrote
 
 **When NOT to use:**
 
 - The project already has a `CONSTRAINTS.md` and the user isn't changing it — read it and follow it instead
 - One-off scripts, spikes, throwaway prototypes
-- The user wants a code review right now (`code-review-and-quality`) or a CI pipeline built (`ci-cd-and-automation`)
+- The user wants an immediate code review or a CI pipeline built rather than a project-wide quality contract
 - Pre-product-market-fit code with a two-week expected lifetime — the floor below is still worth it, the rest isn't
 
 ## Loading Constraints
@@ -56,7 +56,7 @@ Report what you found in two lines, then ask only what's left.
 
 ### Step 2: Four questions, each with a default
 
-Follow the one-question-at-a-time discipline from `interview-me`, with one change: every question here has a default, so "I don't know" is a complete answer that still produces a working config.
+Ask one question at a time. Every question here has a default, so "I don't know" is a complete answer that still produces a working config.
 
 ```
 Q1: Beyond the floor, which of these do you want enforced?
@@ -187,12 +187,12 @@ The commands now live in two places — the `Checked by` column in `CONSTRAINTS.
 
 The single biggest mistake is running everything everywhere. A check that stalls the agent gets switched off, and a gate people switched off is worse than no gate, because the bar still looks like it exists.
 
-| Phase | Command | What runs | Budget |
-|-------|---------|-----------|--------|
-| BUILD | `/build` | Types, lint, secrets, the floor | under 5s, changed file only |
-| VERIFY | `/test` | Related tests, coverage on changed lines | under 90s |
-| REVIEW | `/review` | Everything, plus the guards below | minutes |
-| SHIP | `/ship` | Direction checks, no regressions | CI |
+| Phase | What runs | Budget |
+|-------|-----------|--------|
+| After an edit | Types, lint, secrets, the floor | under 5s, changed file only |
+| Task completion | Related tests, coverage on changed lines | under 90s |
+| Before merge | Everything, plus the guards below | minutes |
+| Release | Direction checks, no regressions | CI |
 
 Two rules that keep this tolerable:
 
@@ -303,9 +303,5 @@ The skill was applied correctly when:
 
 ## See Also
 
-- `interview-me` — the one-question-at-a-time discipline this skill's intake borrows
-- `code-review-and-quality` — how to review; this skill decides what the review enforces
-- `ci-cd-and-automation` — building the pipeline these constraints run in
-- `test-driven-development` — the suite that coverage and mutation constraints measure
 - `security-and-hardening` — what the security dimension should contain
 - `performance-optimization` — where the performance numbers come from

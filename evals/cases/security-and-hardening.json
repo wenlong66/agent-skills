@@ -29,12 +29,12 @@
     ],
     "negative": [
       {
-        "prompt": "Rename these variables for clarity",
-        "owner": "code-simplification"
+        "prompt": "Design the public interface for the billing module",
+        "owner": "api-and-interface-design"
       },
       {
-        "prompt": "Set up the release tagging workflow",
-        "owner": "git-workflow-and-versioning"
+        "prompt": "Make this landing page responsive on mobile",
+        "owner": "frontend-ui-engineering"
       }
     ]
   },

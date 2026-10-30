@@ -1,7 +1,7 @@
 {
   "name": "agent-skills",
   "version": "0.6.14",
-  "description": "Production-grade engineering skills for AI coding agents — covering the full software development lifecycle from spec to ship.",
+  "description": "Six engineering skills for security, API contracts, project constraints, frontend UI, browser testing, and performance.",
   "author": {
     "name": "Addy Osmani"
   },
@@ -9,8 +9,5 @@
   "repository": "https://github.com/addyosmani/agent-skills",
   "license": "MIT",
   "commands": ["./.claude/commands", "./commands"],
-  "skills": "./skills",
-  "experimental": {
-    "evals": "evals/plugin"
-  }
+  "skills": "./skills"
 }

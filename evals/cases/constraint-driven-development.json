@@ -25,16 +25,16 @@
     ],
     "negative": [
       {
-        "prompt": "Review this pull request across correctness and security",
-        "owner": "code-review-and-quality"
+        "prompt": "Design the public interface for the billing module",
+        "owner": "api-and-interface-design"
       },
       {
-        "prompt": "Add a deploy stage to our pipeline with a manual approval gate",
-        "owner": "ci-cd-and-automation"
+        "prompt": "Make this page responsive and WCAG compliant",
+        "owner": "frontend-ui-engineering"
       },
       {
-        "prompt": "Write a failing test for this bug before we fix it",
-        "owner": "test-driven-development"
+        "prompt": "Audit this file upload handler for vulnerabilities",
+        "owner": "security-and-hardening"
       }
     ]
   },

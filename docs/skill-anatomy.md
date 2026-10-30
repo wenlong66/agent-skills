@@ -1,6 +1,6 @@
 # Skill Anatomy
 
-This document describes the structure and format of agent-skills skill files. Use this as a guide when contributing new skills or understanding existing ones.
+This document describes the structure and format of agent-skills skill files. Use this as a guide when maintaining or understanding the six retained skills.
 
 ## File Location
 
@@ -117,7 +117,7 @@ If a skill does not need runnable helpers, do not create an empty `scripts/` dir
 
 ## Shared References
 
-Checklists used by more than one skill — testing, security, performance, accessibility, definition-of-done — live in `references/` at the repository root, deliberately *not* inside any skill directory.
+The shared security, performance, and accessibility checklists live in `references/` at the repository root, deliberately *not* inside any skill directory.
 
 This is a pack-level design choice. The Agent Skills spec describes a skill as a self-contained directory, but several skills here point at the same checklists. Colocating those would force one of two options: copy the checklist into every skill that uses it, or pick one skill to "own" it and have the others reach into that directory. Both drift over time. A single repo-root copy stays the source of truth.
 
@@ -182,8 +182,8 @@ This is about skill *content*; the portability of `references/` *paths* is a sep
 Reference other skills by name:
 
 ```markdown
-Follow the `test-driven-development` skill for writing tests.
-If the build breaks, use the `debugging-and-error-recovery` skill.
+Follow the `browser-testing-with-devtools` skill to verify the rendered UI.
+For authentication changes, use the `security-and-hardening` skill.
 ```
 
 Don't duplicate content between skills — reference and link instead.

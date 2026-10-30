@@ -17,8 +17,8 @@
     ],
     "negative": [
       {
-        "prompt": "My unit test is failing with a null pointer exception",
-        "owner": "debugging-and-error-recovery"
+        "prompt": "Profile these slow database queries and add the right indexes",
+        "owner": "performance-optimization"
       },
       {
         "prompt": "Make this landing page responsive on mobile",

@@ -4,8 +4,10 @@ This repository is also a [Codex plugin](https://developers.openai.com/codex/plu
 
 ## Install
 
+Register this local curated checkout, then install its plugin:
+
 ```bash
-codex plugin marketplace add addyosmani/agent-skills
+codex plugin marketplace add /path/to/agent-skills
 codex plugin add agent-skills@agent-skills
 ```
 
@@ -13,23 +15,18 @@ codex plugin add agent-skills@agent-skills
 
 The first command registers this repository as the `agent-skills` marketplace. The second command installs and enables the `agent-skills` plugin from that marketplace. Start a new Codex session after installation so the skills are discovered.
 
-Local clones work too:
-
-```bash
-codex plugin marketplace add /path/to/your/clone
-codex plugin add agent-skills@agent-skills
-```
+Registering `addyosmani/agent-skills` instead fetches the upstream catalog, not this curated six-skill checkout.
 
 ## Usage
 
-After install, invoke a skill in Codex chat with `@` (e.g. `@spec-driven-development`) or just describe the task and let Codex pick the right skill. All 25 skills under `skills/` are available.
+After install, invoke a skill in Codex chat with `@` (e.g. `@api-and-interface-design`) or just describe the task and let Codex pick the right skill. All six skills under `skills/` are available.
 
-[Codex uses progressive disclosure](https://developers.openai.com/codex/skills): it starts with each skill's `name` and `description`, chooses skills on demand, then loads the full `SKILL.md` only when selected. Do not also paste `using-agent-skills/SKILL.md` into `AGENTS.md`, a system prompt, or other always-on context: that stacks the pack's meta-router on Codex's native router and adds unnecessary routing work. The meta-skill can remain installed with the pack; the warning is specifically against preloading its full instructions.
+[Codex uses progressive disclosure](https://developers.openai.com/codex/skills): it starts with each skill's `name` and `description`, chooses skills on demand, then loads the full `SKILL.md` only when selected.
 
 ## How it works
 
 - `.codex-plugin/plugin.json` — Codex plugin manifest at the repo root. Points `skills` at `./skills/` and provides the metadata required by Codex.
 - `.agents/plugins/marketplace.json` — marketplace entry declaring the repo root (`./`) as the plugin source.
-- `skills/<name>/SKILL.md` — unchanged. Codex and Claude Code share the same `name` + `description` frontmatter format, so one file serves both platforms.
+- `skills/<name>/SKILL.md` — Codex and Claude Code share the same `name` + `description` frontmatter format, so one file serves both platforms.
 
-Slash commands in `.claude/commands/` and personas in `agents/` stay Claude Code-specific. The `SessionStart` script under `hooks/` is a standalone helper for hosts without native skill routing and is not wired by either plugin. On Codex, invoke the underlying skill directly instead of the slash command (e.g. `@spec-driven-development` instead of `/spec`).
+Slash commands in `.claude/commands/` and personas in `agents/` stay Claude Code-specific. On Codex, invoke the underlying skill directly instead of the slash command (e.g. `@constraint-driven-development` instead of `/constraints`).

@@ -8,11 +8,11 @@ Windsurf uses `.windsurfrules` for project-specific agent instructions:
 
 ```bash
 # Create a combined rules file from your most important skills
-cat /path/to/agent-skills/skills/test-driven-development/SKILL.md > .windsurfrules
+cat /path/to/agent-skills/skills/security-and-hardening/SKILL.md > .windsurfrules
 printf '\n---\n\n' >> .windsurfrules
-cat /path/to/agent-skills/skills/incremental-implementation/SKILL.md >> .windsurfrules
+cat /path/to/agent-skills/skills/api-and-interface-design/SKILL.md >> .windsurfrules
 printf '\n---\n\n' >> .windsurfrules
-cat /path/to/agent-skills/skills/code-review-and-quality/SKILL.md >> .windsurfrules
+cat /path/to/agent-skills/skills/frontend-ui-engineering/SKILL.md >> .windsurfrules
 ```
 
 ### Global Rules
@@ -30,15 +30,15 @@ Keep `.windsurfrules` focused on 2-3 essential skills to stay within context lim
 # .windsurfrules
 # Essential agent-skills for this project
 
-[Paste test-driven-development SKILL.md]
+[Paste security-and-hardening SKILL.md]
 
 ---
 
-[Paste incremental-implementation SKILL.md]
+[Paste api-and-interface-design SKILL.md]
 
 ---
 
-[Paste code-review-and-quality SKILL.md]
+[Paste frontend-ui-engineering SKILL.md]
 ```
 
 ## Usage Tips

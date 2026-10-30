@@ -84,9 +84,7 @@ const REQUIRED_SECTIONS = [
 // Exemptions live HERE, not in skill frontmatter, so contributors
 // cannot bypass the validator by editing their own skill file.
 // Every entry must have a documented reason.
-const SECTION_EXEMPT_SKILLS = {
-  'using-agent-skills': 'Meta-skill — orchestrates other skills; When-to-Use and Verification are not applicable to a routing document.',
-};
+const SECTION_EXEMPT_SKILLS = {};
 
 // Regex patterns that indicate an explicit cross-skill reference.
 // Only these patterns trigger the dead-reference warning — generic

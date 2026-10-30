@@ -29,8 +29,8 @@
         "owner": "performance-optimization"
       },
       {
-        "prompt": "Tag and publish the release",
-        "owner": "git-workflow-and-versioning"
+        "prompt": "Set up quality constraints for this project",
+        "owner": "constraint-driven-development"
       }
     ]
   },

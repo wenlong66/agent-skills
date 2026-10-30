@@ -6,16 +6,9 @@
 
 Gemini CLI has a native skills system that auto-discovers `SKILL.md` files in `.gemini/skills/` or `.agents/skills/` directories. Each skill activates on demand when it matches your task.
 
-**Install from the repo:**
+**Install from this local curated checkout:**
 
 ```bash
-gemini skills install https://github.com/addyosmani/agent-skills.git --path skills
-```
-
-**Or install from a local clone:**
-
-```bash
-git clone https://github.com/addyosmani/agent-skills.git
 gemini skills install /path/to/agent-skills/skills/
 ```
 
@@ -24,6 +17,8 @@ gemini skills install /path/to/agent-skills/skills/
 ```bash
 gemini skills install /path/to/agent-skills/skills/ --scope workspace
 ```
+
+Installing from `https://github.com/addyosmani/agent-skills.git` instead fetches the upstream catalog, not this curated six-skill checkout.
 
 Skills installed at workspace scope go into `.gemini/skills/` (or `.agents/skills/`). User-level skills go into `~/.gemini/skills/`.
 
@@ -37,13 +32,11 @@ Gemini CLI injects skill names and descriptions into the prompt automatically. W
 
 ### Option 2: GEMINI.md (Persistent Context)
 
-For skills you want always loaded as persistent project context (rather than on-demand activation), add them to your project's `GEMINI.md`:
+For skills you want always loaded as persistent project context rather than on-demand activation, add them to your project's `GEMINI.md`:
 
 ```bash
-# Create GEMINI.md with core skills as persistent context
-cat /path/to/agent-skills/skills/incremental-implementation/SKILL.md > GEMINI.md
-echo -e "\n---\n" >> GEMINI.md
-cat /path/to/agent-skills/skills/code-review-and-quality/SKILL.md >> GEMINI.md
+# Only do this if you want the skill always loaded
+cat /path/to/agent-skills/skills/security-and-hardening/SKILL.md > GEMINI.md
 ```
 
 You can also modularize by importing from separate files:
@@ -51,83 +44,60 @@ You can also modularize by importing from separate files:
 ```markdown
 # Project Instructions
 
-@skills/test-driven-development/SKILL.md
-@skills/incremental-implementation/SKILL.md
+@skills/security-and-hardening/SKILL.md
+@skills/api-and-interface-design/SKILL.md
 ```
 
 Use `/memory show` to verify loaded context, and `/memory reload` to refresh after changes.
 
-> **Skills vs GEMINI.md:** Skills are on-demand expertise that activate only when relevant, keeping your context window clean. GEMINI.md provides persistent context loaded for every prompt. Use skills for phase-specific workflows and GEMINI.md for always-on project conventions.
+> **Skills vs GEMINI.md:** Skills activate only when relevant, keeping your context window clean. GEMINI.md provides persistent context loaded for every prompt. Prefer skills for task-specific workflows and GEMINI.md for always-on project conventions.
 
 ## Recommended Configuration
 
-### Always-On (GEMINI.md)
+Keep project conventions in `GEMINI.md` and install the six workflows as on-demand skills:
 
-Add these as persistent context for every session:
-
-- `incremental-implementation` — Build in small verifiable slices
-- `code-review-and-quality` — Five-axis review
-
-### On-Demand (Skills)
-
-Install these as skills so they activate only when relevant:
-
-- `test-driven-development` — Activates when implementing logic or fixing bugs
-- `spec-driven-development` — Activates when starting a new project or feature
-- `frontend-ui-engineering` — Activates when building UI
-- `security-and-hardening` — Activates during security reviews
-- `performance-optimization` — Activates during performance work
+- `security-and-hardening` — Authentication, untrusted input, dependencies, and AI/LLM security.
+- `api-and-interface-design` — Stable API and module contracts.
+- `constraint-driven-development` — Written quality standards and enforceable gates.
+- `frontend-ui-engineering` — Accessible, responsive UI and complete interaction states.
+- `browser-testing-with-devtools` — Runtime page, interaction, and request verification.
+- `performance-optimization` — Measured frontend, backend, query, and database optimization.
 
 ## Advanced Configuration
 
 ### MCP Integration
 
-Many skills in this pack leverage [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) tools to interact with the environment. For example:
+Some skills leverage [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) tools:
 
 - `browser-testing-with-devtools` uses the `chrome-devtools` MCP extension.
 - `performance-optimization` can benefit from performance-related MCP tools.
 
 To enable these, configure the relevant MCP servers under `mcpServers` in your Gemini CLI settings (`~/.gemini/settings.json`, or `.gemini/settings.json` in a project).
 
-### Session Hooks
-
-Gemini CLI supports session lifecycle hooks. You can use these to automatically inject context or run validation scripts at the start of a session.
-
-To replicate the `agent-skills` experience from other tools, you can configure a `SessionStart` hook that reminds you of the available skills or loads a meta-skill. `hooks/session-start.sh` in this repo is a ready-made script for that: it prints the `using-agent-skills` meta-skill as a standard `SessionStart` JSON envelope on stdout.
-
 ### Explicit Context Loading
 
 You can explicitly load any skill into your current session by referencing it with the `@` symbol in your prompt:
 
 ```markdown
-Use the @skills/test-driven-development/SKILL.md skill to implement this fix.
+Use the @skills/api-and-interface-design/SKILL.md skill to define this endpoint's contract.
 ```
 
 This is useful when you want to ensure a specific workflow is followed without waiting for auto-discovery.
 
 ## Slash Commands
 
-The repo ships 9 slash commands under `.gemini/commands/`: 8 lifecycle commands plus the `/webperf` specialist audit. Gemini CLI auto-discovers them when you run from the project root.
+The repo ships two slash commands under `.gemini/commands/`. Gemini CLI auto-discovers them when you run from the project root.
 
 | Command | What it does |
 |---------|--------------|
-| `/spec` | Write a structured spec before writing code |
-| `/constraints` | Define and enforce the project's quality bar |
-| `/planning` | Break work into small, verifiable tasks |
-| `/build` | Implement the next task incrementally |
-| `/test` | Run TDD workflow — red, green, refactor |
-| `/review` | Five-axis code review |
-| `/code-simplify` | Reduce complexity without changing behavior |
-| `/ship` | Pre-launch checklist via parallel persona fan-out |
-| `/webperf` | Audit browser-facing apps for Core Web Vitals and performance issues |
+| `/constraints` | Invokes constraint-driven-development to define and enforce the project's quality bar |
+| `/webperf` | Adopts the web-performance-auditor persona to audit browser-facing apps |
 
-Each command invokes the corresponding skill automatically — no manual skill loading required.
-
-> **Note:** Use `/planning` instead of `/plan` — `/plan` conflicts with a Gemini CLI internal command name.
+`/constraints` loads a skill; `/webperf` uses a specialist persona in the current session rather than spawning a subagent.
 
 ## Usage Tips
 
-1. **Prefer skills over GEMINI.md** — Skills activate on demand and keep your context window focused. Only put skills in GEMINI.md if you want them always loaded.
-2. **Skill descriptions matter** — Each SKILL.md has a `description` field in its frontmatter that tells agents when to activate it. The descriptions in this repo are optimized for auto-discovery across all supported tools (Claude Code, Gemini CLI, etc.) by clearly stating both *what* the skill does and *when* it should be triggered.
-3. **Use agents for review** — Copy `agents/code-reviewer.md` content when requesting structured code reviews.
-4. **Combine with references** — Reference checklists from `references/` when working on specific quality areas like testing or performance.
+1. **Prefer skills over GEMINI.md** — on-demand activation keeps context focused.
+2. **Skill descriptions matter** — each description states what the skill does and when to activate it.
+3. **Use agents for review** — provide `agents/security-auditor.md` or `agents/web-performance-auditor.md` for targeted audits.
+4. **Combine with references** — use checklists from `references/` for security, performance, and accessibility.

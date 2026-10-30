@@ -7,7 +7,7 @@
     {
       "name": "agent-skills",
       "version": "0.6.14",
-      "description": "Production-grade engineering skills covering every phase of software development: spec, plan, build, verify, review, and ship.",
+      "description": "Six engineering skills for security, API contracts, project constraints, frontend UI, browser testing, and performance.",
       "source": {
         "source": "local",
         "path": "./"
